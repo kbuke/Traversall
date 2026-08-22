@@ -4,6 +4,8 @@ from resources.AdminLogin import AdminLogin, AdminCheckSession, AdminLogout
 from resources.Continents import AllContinents, SpecificContinent
 from resources.Countries import AllCountries, SpecificCountry
 from resources.CountriesContinents import AllCountriesContinents, SpecificCountriesContinents
+from resources.Language import AllLanguages, SpecificLanguages
+from resources.CountriesLanguages import AllCountriesLanguages, SpecificCountryLanguages
 
 api.add_resource(AdminLogin, "/admin/login")
 api.add_resource(AdminLogout, "/admin/logout")
@@ -17,6 +19,12 @@ api.add_resource(SpecificCountry, "/countries/<int:id>")
 
 api.add_resource(AllCountriesContinents, "/countriescontinents")
 api.add_resource(SpecificCountriesContinents, "/countriescontinents/<int:id>")
+
+api.add_resource(AllLanguages, "/languages")
+api.add_resource(SpecificLanguages, "/languages/<int:id>")
+
+api.add_resource(AllCountriesLanguages, "/countrieslanguages")
+api.add_resource(SpecificCountryLanguages, "/countrieslanguages/<int:id>")
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)

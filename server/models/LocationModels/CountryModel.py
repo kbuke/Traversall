@@ -27,8 +27,15 @@ class CountryModel(LocationParentModel):
         "countries_continents"
     )
 
+    languages = many_to_many_reltshp(
+        "LanguagesModel",
+        "countries",
+        "countries_languages"
+    )
+
     serialize_rules = (
         "-continents.countries",
+        "-languages.countries",
     )
 
     @validates("name", "native_name", "native_pronounciation")
