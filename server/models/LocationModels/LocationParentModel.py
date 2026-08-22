@@ -16,6 +16,9 @@ class LocationParentModel(db.Model, SerializerMixin):
     img = db.Column(db.String, nullable = False)
     location_type = db.Column(db.String, nullable = False)
 
+    native_name = db.Column(db.String, nullable = True) # native spelling of location IF it exists eg Japan =　日本
+    native_pronounciation = db.Column(db.String, nullable = True) # native pronounciation IF it exists eg Japan = 日本 = Nihon
+
     # Create a set to ensure unique values
     allowed_locations = {
         "Continent",

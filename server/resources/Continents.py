@@ -2,7 +2,7 @@ from resources.BaseResource import BaseResource
 
 from decorators.require_admin_login import require_admin_login
 
-from models.ContinentModel import ContinentModel
+from models.LocationModels.ContinentModel import ContinentModel
 
 class AllContinents(BaseResource):
     model = ContinentModel

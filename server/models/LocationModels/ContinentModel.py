@@ -4,10 +4,23 @@ from sqlalchemy.orm import validates
 
 from functions.check_data_type_values import check_data_type_value
 
-from validations.validate_unique_value import validate_unique_value
+from validations.validate_unique_name import validate_unique_name
+
+from relational_functions.many_to_many import many_to_many_reltshp
 
 class ContinentModel(LocationParentModel):
     __tablename__ = "continents"
+
+    # Some countries like Turkey can be in 2 continents
+    countries = many_to_many_reltshp(
+        "CountryModel",
+        "continents",
+        "countries_continents"
+    )
+
+    serialize_rules = (
+        "-countries.continents",
+    )
 
     contitent_names = {
         "Antartica", 
@@ -26,7 +39,7 @@ class ContinentModel(LocationParentModel):
             value
         )
 
-        return validate_unique_value(
+        return validate_unique_name(
             value,
             ContinentModel,
             "Continent"
