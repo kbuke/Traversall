@@ -65,6 +65,8 @@ class BaseResource(Resource):
                 mapped_key = getattr(self, "field_map", {}).get(key, key)
                 mapped_data[mapped_key] = value 
 
+            mapped_data = self.prepare_data(mapped_data)
+
             for attr, val in mapped_data.items():
                 setattr(record, attr, val)
 

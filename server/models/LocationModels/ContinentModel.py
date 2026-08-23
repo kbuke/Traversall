@@ -20,6 +20,8 @@ class ContinentModel(LocationParentModel):
 
     serialize_rules = (
         "-countries.continents",
+        "-countries.languages",
+        "-countries.locations",
     )
 
     contitent_names = {

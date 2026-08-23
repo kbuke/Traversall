@@ -9,6 +9,7 @@ from validations.validate_unique_name import validate_unique_name
 from functions.check_data_type_values import check_data_type_value
 
 from relational_functions.many_to_many import many_to_many_reltshp
+from relational_functions.one_to_many import one_to_many_back_populates
 
 class CountryModel(LocationParentModel):
     __tablename__ = "countries"
@@ -33,9 +34,16 @@ class CountryModel(LocationParentModel):
         "countries_languages"
     )
 
+    locations = one_to_many_back_populates(
+        "OtherLocationModel",
+        "country",
+        delete_orphan=True
+    )
+
     serialize_rules = (
         "-continents.countries",
         "-languages.countries",
+        "-locations.countries",
     )
 
     @validates("name", "native_name", "native_pronounciation")

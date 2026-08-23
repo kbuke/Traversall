@@ -22,6 +22,7 @@ class LanguagesModel(db.Model, SerializerMixin):
     serialize_rules = (
         "countries.languages",
         "countries.continents",
+        "-countries.locations",
     )
 
     @validates("name")

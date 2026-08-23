@@ -19,18 +19,19 @@ class LocationParentModel(db.Model, SerializerMixin):
     native_name = db.Column(db.String, nullable = True) # native spelling of location IF it exists eg Japan =　日本
     native_pronounciation = db.Column(db.String, nullable = True) # native pronounciation IF it exists eg Japan = 日本 = Nihon
 
-    # Create a set to ensure unique values
-    allowed_locations = {
-        "Continent",
-        "Country",
-        "City",
-        # Set up things like prefectures, states, counties
-        "States",
-        "Prefectures",
-        "Counties"
-    }
-
     @validates("location_type")
     def validate_location_type(self, key, value):
-        return check_data_type_value(self.allowed_locations, value)
+        # Create a set to ensure unique values
+        allowed_locations = {
+            "Continent",
+            "Country",
+            # Cities can either be a normal city or a capital 
+            "City",
+            "Capital City",
+            # Set up things like prefectures, states, counties
+            "States",
+            "Prefecture",
+            "Counties"
+        }
+        return check_data_type_value(allowed_locations, value)
         
