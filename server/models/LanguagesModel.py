@@ -14,14 +14,13 @@ class LanguagesModel(db.Model, SerializerMixin):
     name = db.Column(db.String, nullable = False)
 
     countries = many_to_many_reltshp(
-        "CountryModel",
-        "languages",
-        "countries_languages"
+        "CountryModel", "languages", "countries_languages",
+        left_table="countries", right_table="languages"
     )
 
     serialize_rules = (
-        "countries.languages",
-        "countries.continents",
+        "-countries.languages",
+        "-countries.continents",
         "-countries.locations",
     )
 

@@ -23,15 +23,13 @@ class CountryModel(LocationParentModel):
     # Have a login section for countries so that there is a country admin (this should maybe be a one-to-many relationshp so a country can have many admins)
 
     continents = many_to_many_reltshp(
-        "ContinentModel",
-        "countries",
-        "countries_continents"
+        "ContinentModel", "countries", "countries_continents",
+        left_table="continents", right_table="countries"
     )
 
     languages = many_to_many_reltshp(
-        "LanguagesModel",
-        "countries",
-        "countries_languages"
+        "LanguagesModel", "countries", "countries_languages",
+        left_table="countries", right_table="languages"
     )
 
     locations = one_to_many_back_populates(
@@ -40,10 +38,26 @@ class CountryModel(LocationParentModel):
         delete_orphan=True
     )
 
+    sites = one_to_many_back_populates(
+        "SiteModel",
+        "country",
+        delete_orphan=True
+    )
+
+    wishlist_items = one_to_many_back_populates(
+        "WishlistItemModel",
+        "country",
+        delete_orphan=True
+    )
+
     serialize_rules = (
         "-continents.countries",
         "-languages.countries",
         "-locations.countries",
+        "-locations.sites",
+        "-sites.country",
+        "-sites.location",
+        "-wishlist_items"
     )
 
     @validates("name", "native_name", "native_pronounciation")

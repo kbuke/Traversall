@@ -5,6 +5,8 @@ from decorators.require_admin_login import require_admin_login
 
 from flask import request
 
+from serialize_functions.serialize_location import serialize_location
+
 class AllOtherLocations(BaseResource):
     model = OtherLocationModel
 
@@ -33,7 +35,12 @@ class AllOtherLocations(BaseResource):
         return data
 
     def get(self):
-        return self.get_all()
+        records = [
+            serialize_location(location)
+            for location in self.model.query.all()
+        ]
+        return records, 200
+        # return self.get_all()
 
     @require_admin_login
     def post(self):
@@ -67,7 +74,18 @@ class SpecificOtherLocation(BaseResource):
         return data
 
     def get(self, id):
-        return self.get_specific(id)
+        location = OtherLocationModel.query.filter(
+            OtherLocationModel.id == id
+        ).first()
+
+        if not location:
+            return{
+                "error": f"Location {id} not found"
+            }, 404
+        return serialize_location(
+            location,
+            include_country=True
+        ), 200
 
     @require_admin_login
     def patch(self, id):

@@ -31,7 +31,11 @@ class LocationParentModel(db.Model, SerializerMixin):
             # Set up things like prefectures, states, counties
             "States",
             "Prefecture",
-            "Counties"
+            "Counties",
+
+            "Ward",
+
+            "Specific Block"
         }
         return check_data_type_value(allowed_locations, value)
         

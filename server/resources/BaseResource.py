@@ -5,6 +5,8 @@ from sqlalchemy.exc import IntegrityError
 
 from config import db 
 
+from functions.create_wishlist_for_user import create_wishlist_for_user
+
 class BaseResource(Resource):
     model = None 
 
@@ -13,7 +15,9 @@ class BaseResource(Resource):
 
     # GET all instances of a model
     def get_all(self):
-        records = [record.to_dict() for record in self.model.query.all()]
+        records = [
+            record.to_dict() for record in self.model.query.all()
+        ]
         return records, 200 
 
     # GET a specific instance of a model
@@ -24,7 +28,10 @@ class BaseResource(Resource):
         return make_response(record.to_dict(), 200)
 
     # POST a new instance to a model
-    def post_instance(self):
+    def post_instance(
+            self,
+            create_wishlist = False
+    ):
         data = request.get_json()
 
         if not data:
@@ -45,6 +52,7 @@ class BaseResource(Resource):
 
             db.session.add(new_record)
             db.session.commit()
+
             return new_record.to_dict(), 201
         except(ValueError, IntegrityError) as e:
             db.session.rollback()

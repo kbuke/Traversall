@@ -40,6 +40,17 @@ class OtherLocationModel(LocationParentModel):
         delete_orphan=True
     )
 
+    sites = one_to_many_back_populates(
+        "SiteModel",
+        "location"
+    )
+
+    wishlist_items = one_to_many_back_populates(
+        "WishlistItemModel",
+        "location",
+        delete_orphan=True
+    )
+
     @validates("parent_location", "admin_level")
     def valudate_hierarchy(self, key, value):
         if key == "parent_location" and value is not None:
@@ -61,4 +72,7 @@ class OtherLocationModel(LocationParentModel):
         "-country.languages",
         "-child_locations.parent_location",
         "-parent_location.child_locations",
+        "-sites.location",
+        "-sites.country",
+        "-wishlist_items",
     )
