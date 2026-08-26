@@ -32,6 +32,11 @@ class CountryModel(LocationParentModel):
         left_table="countries", right_table="languages"
     )
 
+    media = many_to_many_reltshp(
+        "MediaModel", "countries", "country_media",
+        left_table="countries", right_table="media"
+    )
+
     locations = one_to_many_back_populates(
         "OtherLocationModel",
         "country",
@@ -40,6 +45,12 @@ class CountryModel(LocationParentModel):
 
     sites = one_to_many_back_populates(
         "SiteModel",
+        "country",
+        delete_orphan=True
+    )
+
+    businesses = one_to_many_back_populates(
+        "BaseBusinessModel",
         "country",
         delete_orphan=True
     )
@@ -57,7 +68,10 @@ class CountryModel(LocationParentModel):
         "-locations.sites",
         "-sites.country",
         "-sites.location",
-        "-wishlist_items"
+        "-wishlist_items",
+        "-businesses.country",
+        "-businesses.location",
+        "-businesses.wishlist_items",
     )
 
     @validates("name", "native_name", "native_pronounciation")

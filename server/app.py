@@ -8,13 +8,16 @@ from resources.Language import AllLanguages, SpecificLanguages
 from resources.OtherLocations import AllOtherLocations, SpecificOtherLocation
 from resources.Interests import AllInterests, SpecificInterest
 from resources.Sites import AllSites, SpecificSite
-from resources.User import AllUsers
+from resources.User import AllUsers, SpecificUser
 from resources.Wishlist import SpecificWishlist
 from resources.WishListItem import AllWishListItems, SpecificWishlistItem
 from resources.ManyToManyJoiners.AttachCountryContinent import PostCountryContinent, DeleteCountryContinent
 from resources.ManyToManyJoiners.AttachCountryLanguage import PostCountryLanguage, DeleteCountryLanguage
 from resources.ManyToManyJoiners.AttachSiteInterests import PostSiteInterests, DeleteSiteInterest
 from resources.Business import AllBusinesses, SpecificBusiness
+from resources.FilmTvShows import AllFilmTv, SpecificFilmTv
+from resources.ManyToManyJoiners.AttachCountryFilm import PostCountryFilm, DeleteCountryFilm
+from resources.Song import AllSongs, SpecificSong
 
 api.add_resource(AdminLogin, "/admin/login")
 api.add_resource(AdminLogout, "/admin/logout")
@@ -39,6 +42,7 @@ api.add_resource(AllSites, "/sites")
 api.add_resource(SpecificSite, "/sites/<int:id>")
 
 api.add_resource(AllUsers, "/users")
+api.add_resource(SpecificUser, "/users/<int:id>")
 
 api.add_resource(SpecificWishlist, "/wishlist/<int:id>")
 
@@ -56,6 +60,15 @@ api.add_resource(DeleteSiteInterest, "/sites/<int:site_id>/interests/<int:intere
 
 api.add_resource(AllBusinesses, "/businesses")
 api.add_resource(SpecificBusiness, "/businesses/<int:id>")
+
+api.add_resource(AllFilmTv, "/films")
+api.add_resource(SpecificFilmTv, "/films/<int:id>")
+
+api.add_resource(PostCountryFilm, "/countries/<int:country_id>/films")
+api.add_resource(DeleteCountryFilm, "/countries/<int:country_id>/films/<int:film_id>")
+
+api.add_resource(AllSongs, "/songs")
+api.add_resource(SpecificSong, "/songs/<int:id>")
 
 
 if __name__ == "__main__":

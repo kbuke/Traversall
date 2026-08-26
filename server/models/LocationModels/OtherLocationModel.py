@@ -45,6 +45,11 @@ class OtherLocationModel(LocationParentModel):
         "location"
     )
 
+    businesses = one_to_many_back_populates(
+        "BaseBusinessModel",
+        "location"
+    )
+
     wishlist_items = one_to_many_back_populates(
         "WishlistItemModel",
         "location",
@@ -75,4 +80,5 @@ class OtherLocationModel(LocationParentModel):
         "-sites.location",
         "-sites.country",
         "-wishlist_items",
+        "-businesses.location",
     )

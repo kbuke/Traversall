@@ -17,8 +17,18 @@ def get_or_create_secondary_table(tablename, left_table, right_table):
         db.Column(f"{right_table}_id", db.Integer, db.ForeignKey(f"{right_table}.id"), primary_key=True),
     )
 
-def many_to_many_reltshp(model, relationAttribute, tablename, left_table, right_table):
-    secondary_table = get_or_create_secondary_table(tablename, left_table, right_table)
+def many_to_many_reltshp(
+    model, 
+    relationAttribute, 
+    tablename, 
+    left_table, 
+    right_table
+):
+    secondary_table = get_or_create_secondary_table(
+        tablename, 
+        left_table, 
+        right_table
+    )
     return db.relationship(
         model,
         back_populates=relationAttribute,

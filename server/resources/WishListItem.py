@@ -17,7 +17,7 @@ class AllWishListItems(BaseResource):
         "countryId": "country_id",
         "locationId": "location_id",
         "siteId": "site_id",
-        # "businessId": "business_id"
+        "businessId": "business_id"
     }
 
     def get(self):

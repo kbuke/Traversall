@@ -50,6 +50,9 @@ class BaseResource(Resource):
             if hasattr(new_record, "validate_unique"):
                 new_record.validate_unique()
 
+            if hasattr(new_record, "validate_song"):
+                new_record.validate_song()
+
             db.session.add(new_record)
             db.session.commit()
 
