@@ -35,12 +35,14 @@ class AllOtherLocations(BaseResource):
         return data
 
     def get(self):
-        records = [
-            serialize_location(location)
-            for location in self.model.query.all()
-        ]
-        return records, 200
-        # return self.get_all()
+        return self.get_all(
+            "-country",
+            "-parent_location",
+            "-child_locations",
+            "-sites",
+            "-businesses",
+            "-wishlist_items",
+        )
 
     @require_admin_login
     def post(self):

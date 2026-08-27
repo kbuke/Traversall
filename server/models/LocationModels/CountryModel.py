@@ -18,6 +18,8 @@ class CountryModel(LocationParentModel):
     passport_img = db.Column(db.String, nullable = False) # eventually have this as a upload, and maybe have several options for a stamp
     safety_level = db.Column(db.String, nullable = False)
 
+    # have a link to their visa page
+
     # Some countries, like South Africa can have more than one capital city
     # Some countries, like South Africa and China can have more than one language
     # Have a login section for countries so that there is a country admin (this should maybe be a one-to-many relationshp so a country can have many admins)
@@ -59,6 +61,11 @@ class CountryModel(LocationParentModel):
         "WishlistItemModel",
         "country",
         delete_orphan=True
+    )
+
+    notable_events = many_to_many_reltshp(
+        "NotableEventModel", "countries_involved", "countries_events",
+        left_table="countries", right_table="notable_events"
     )
 
     serialize_rules = (

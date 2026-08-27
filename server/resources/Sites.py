@@ -27,11 +27,12 @@ class AllSites(BaseResource):
         )
 
     def get(self):
-        records = [
-            serialize_site(site)
-            for site in self.model.query.all()
-        ]
-        return records, 200
+        return self.get_all(
+            "-location",
+            "-country",
+            "-interests",
+            "-wishlist_items",
+        )
 
     def post(self):
         return self.post_instance()

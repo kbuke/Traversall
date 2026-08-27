@@ -14,9 +14,9 @@ class BaseResource(Resource):
         return data 
 
     # GET all instances of a model
-    def get_all(self):
+    def get_all(self, *serialize_rules):
         records = [
-            record.to_dict() for record in self.model.query.all()
+            record.to_dict(rules = (serialize_rules)) for record in self.model.query.all()
         ]
         return records, 200 
 
@@ -30,7 +30,8 @@ class BaseResource(Resource):
     # POST a new instance to a model
     def post_instance(
             self,
-            create_wishlist = False
+            create_wishlist = False,
+            *serialize_rules
     ):
         data = request.get_json()
 
@@ -50,13 +51,13 @@ class BaseResource(Resource):
             if hasattr(new_record, "validate_unique"):
                 new_record.validate_unique()
 
-            if hasattr(new_record, "validate_song"):
-                new_record.validate_song()
+            if hasattr(new_record, "valudate_instance"):
+                new_record.valudate_instance()
 
             db.session.add(new_record)
             db.session.commit()
 
-            return new_record.to_dict(), 201
+            return new_record.to_dict(rules = serialize_rules), 201
         except(ValueError, IntegrityError) as e:
             db.session.rollback()
             return {"error": [str(e)]}, 400

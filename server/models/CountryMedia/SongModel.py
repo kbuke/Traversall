@@ -38,7 +38,7 @@ class SongModel(MediaModel):
 
         return value
 
-    def validate_song(self):
+    def validate_instance(self):
 
         if self.length is None:
             raise ValueError(

@@ -15,6 +15,7 @@ class LocationParentModel(db.Model, SerializerMixin):
     slug = db.Column(db.String, default = make_slug_default("name"))
     img = db.Column(db.String, nullable = False)
     location_type = db.Column(db.String, nullable = False)
+    info = db.Column(db.String, nullable = False)
 
     native_name = db.Column(db.String, nullable = True) # native spelling of location IF it exists eg Japan =　日本
     native_pronounciation = db.Column(db.String, nullable = True) # native pronounciation IF it exists eg Japan = 日本 = Nihon
@@ -32,6 +33,7 @@ class LocationParentModel(db.Model, SerializerMixin):
             "States",
             "Prefecture",
             "Counties",
+            "Province",
 
             "Ward",
 

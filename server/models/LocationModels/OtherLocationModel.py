@@ -56,6 +56,12 @@ class OtherLocationModel(LocationParentModel):
         delete_orphan=True
     )
 
+    events = one_to_many_back_populates(
+        "NotableEventModel",
+        "location",
+        delete_orphan=True
+    )
+
     @validates("parent_location", "admin_level")
     def valudate_hierarchy(self, key, value):
         if key == "parent_location" and value is not None:

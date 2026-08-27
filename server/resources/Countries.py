@@ -17,7 +17,15 @@ class AllCountries(BaseResource):
     }
 
     def get(self):
-        return self.get_all()
+        return self.get_all(
+            "-continents",
+            "-languages",
+            "-media",
+            "-locations",
+            "-sites",
+            "-businesses",
+            "-wishlist_items",
+        )
 
     @require_admin_login
     def post(self):

@@ -15,9 +15,10 @@ from resources.ManyToManyJoiners.AttachCountryContinent import PostCountryContin
 from resources.ManyToManyJoiners.AttachCountryLanguage import PostCountryLanguage, DeleteCountryLanguage
 from resources.ManyToManyJoiners.AttachSiteInterests import PostSiteInterests, DeleteSiteInterest
 from resources.Business import AllBusinesses, SpecificBusiness
-from resources.FilmTvShows import AllFilmTv, SpecificFilmTv
+from resources.CountryMedia.FilmTvShows import AllFilmTv, SpecificFilmTv
 from resources.ManyToManyJoiners.AttachCountryFilm import PostCountryFilm, DeleteCountryFilm
-from resources.Song import AllSongs, SpecificSong
+from resources.CountryMedia.Song import AllSongs, SpecificSong
+from resources.NotableEvents import AllNotableEvents
 
 api.add_resource(AdminLogin, "/admin/login")
 api.add_resource(AdminLogout, "/admin/logout")
@@ -69,6 +70,8 @@ api.add_resource(DeleteCountryFilm, "/countries/<int:country_id>/films/<int:film
 
 api.add_resource(AllSongs, "/songs")
 api.add_resource(SpecificSong, "/songs/<int:id>")
+
+api.add_resource(AllNotableEvents, "/notableevents")
 
 
 if __name__ == "__main__":

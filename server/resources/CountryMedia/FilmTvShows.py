@@ -15,7 +15,9 @@ class BaseFilmTv(BaseCountryMedia):
 
 class AllFilmTv(BaseFilmTv):
     def get(self):
-        return self.get_all()
+        return self.get_all(
+            "-countries",
+        )
 
     def post(self):
         return self.post_instance()

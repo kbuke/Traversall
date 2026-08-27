@@ -13,7 +13,9 @@ class BaseSong(BaseCountryMedia):
 
 class AllSongs(BaseSong):
     def get(self):
-        return self.get_all()
+        return self.get_all(
+            "-countries",
+        )
 
     def post(self):
         return self.post_instance()

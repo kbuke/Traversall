@@ -1,8 +1,8 @@
 """initial migration
 
-Revision ID: 2da2664af598
+Revision ID: 508586b7424f
 Revises: 
-Create Date: 2026-08-26 16:28:24.251329
+Create Date: 2026-08-27 13:04:57.436727
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2da2664af598'
+revision = '508586b7424f'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,6 +24,7 @@ def upgrade():
     sa.Column('slug', sa.String(), nullable=True),
     sa.Column('img', sa.String(), nullable=False),
     sa.Column('location_type', sa.String(), nullable=False),
+    sa.Column('info', sa.String(), nullable=False),
     sa.Column('native_name', sa.String(), nullable=True),
     sa.Column('native_pronounciation', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
@@ -37,6 +38,7 @@ def upgrade():
     sa.Column('slug', sa.String(), nullable=True),
     sa.Column('img', sa.String(), nullable=False),
     sa.Column('location_type', sa.String(), nullable=False),
+    sa.Column('info', sa.String(), nullable=False),
     sa.Column('native_name', sa.String(), nullable=True),
     sa.Column('native_pronounciation', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
@@ -115,6 +117,7 @@ def upgrade():
     sa.Column('slug', sa.String(), nullable=True),
     sa.Column('img', sa.String(), nullable=False),
     sa.Column('location_type', sa.String(), nullable=False),
+    sa.Column('info', sa.String(), nullable=False),
     sa.Column('native_name', sa.String(), nullable=True),
     sa.Column('native_pronounciation', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['country_id'], ['countries.id'], name=op.f('fk_other_locations_country_id_countries')),
@@ -136,6 +139,20 @@ def upgrade():
     sa.ForeignKeyConstraint(['location_id'], ['other_locations.id'], name=op.f('fk_businesses_location_id_other_locations')),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('notable_events',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(), nullable=False),
+    sa.Column('slug', sa.String(), nullable=True),
+    sa.Column('img', sa.String(), nullable=False),
+    sa.Column('start_date', sa.Date(), nullable=False),
+    sa.Column('end_date', sa.Date(), nullable=False),
+    sa.Column('info', sa.String(), nullable=False),
+    sa.Column('location_id', sa.Integer(), nullable=True),
+    sa.Column('parent_event_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['location_id'], ['other_locations.id'], name=op.f('fk_notable_events_location_id_other_locations')),
+    sa.ForeignKeyConstraint(['parent_event_id'], ['notable_events.id'], name=op.f('fk_notable_events_parent_event_id_notable_events')),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('sites',
     sa.Column('location_id', sa.Integer(), nullable=False),
     sa.Column('country_id', sa.Integer(), nullable=False),
@@ -146,6 +163,13 @@ def upgrade():
     sa.ForeignKeyConstraint(['country_id'], ['countries.id'], name=op.f('fk_sites_country_id_countries')),
     sa.ForeignKeyConstraint(['location_id'], ['other_locations.id'], name=op.f('fk_sites_location_id_other_locations')),
     sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('countries_events',
+    sa.Column('countries_id', sa.Integer(), nullable=False),
+    sa.Column('notable_events_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['countries_id'], ['countries.id'], name=op.f('fk_countries_events_countries_id_countries')),
+    sa.ForeignKeyConstraint(['notable_events_id'], ['notable_events.id'], name=op.f('fk_countries_events_notable_events_id_notable_events')),
+    sa.PrimaryKeyConstraint('countries_id', 'notable_events_id')
     )
     op.create_table('sites_interests',
     sa.Column('sites_id', sa.Integer(), nullable=False),
@@ -185,7 +209,9 @@ def downgrade():
     op.drop_table('wishlist_items_tags')
     op.drop_table('wishlist_items')
     op.drop_table('sites_interests')
+    op.drop_table('countries_events')
     op.drop_table('sites')
+    op.drop_table('notable_events')
     op.drop_table('businesses')
     op.drop_table('wishlists')
     op.drop_table('other_locations')
